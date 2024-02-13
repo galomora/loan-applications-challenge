@@ -96,5 +96,19 @@ public class LoanApplicationServiceImpl implements LoanApplicationService {
         });
     }
 
+    @Override
+    public List<LoanApplicationChecklistItem> getItems(Long id) throws LoanApplicationNotFoundException {
+        LoanApplication loanApplication = getLoanApplication(id);
+        loanApplication.getChecklistItems().size();
+        return loanApplication.getChecklistItems();
+    }
+
+    @Override
+    public LoanApplicationChecklistItem getItem(Long itemId, Long loanApplicationId) throws LoanApplicationNotFoundException {
+        Optional<LoanApplicationChecklistItem> optionalItem = this.loanApplicationChecklistItemRepository.findById(itemId);
+        return optionalItem.filter(item -> loanApplicationId.longValue() == item.getLoanApplicationId().longValue())
+                .orElseThrow( () -> new LoanApplicationNotFoundException (
+                        "Checklist item with id = " + itemId + " for Loan Application with id = " + loanApplicationId + " not found"));
+    }
 
 }

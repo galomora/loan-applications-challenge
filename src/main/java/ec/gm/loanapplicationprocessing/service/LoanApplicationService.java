@@ -83,4 +83,21 @@ public interface LoanApplicationService {
      * @throws LoanApplicationNotFoundException when not found
      */
     LoanApplication getLoanApplication (Long id) throws LoanApplicationNotFoundException;
+
+    /**
+     * Getting the list of {@link LoanApplicationChecklistItem} for a Loan Application
+     * @param id of the {@link LoanApplication}
+     * @return list of {@link LoanApplicationChecklistItem} for a Loan Application
+     * @throws LoanApplicationNotFoundException when not found
+     */
+    List<LoanApplicationChecklistItem> getItems (Long id) throws LoanApplicationNotFoundException;
+
+    /**
+     * Getting a {@link LoanApplicationChecklistItem}
+     * @param itemId of the {@link LoanApplicationChecklistItem}
+     * @param loanApplicationId of the {@link LoanApplication}
+     * @return {@link LoanApplicationChecklistItem} searched
+     * @throws LoanApplicationNotFoundException when not found
+     */
+    LoanApplicationChecklistItem getItem (Long itemId, Long loanApplicationId) throws LoanApplicationNotFoundException;
 }
