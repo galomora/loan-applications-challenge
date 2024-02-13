@@ -5,6 +5,7 @@ import ec.gm.loanapplicationprocessing.database.LoanApplicationChecklistItemRepo
 import ec.gm.loanapplicationprocessing.database.LoanApplicationRepository;
 import ec.gm.loanapplicationprocessing.model.exception.LoanApplicationException;
 import ec.gm.loanapplicationprocessing.model.*;
+import ec.gm.loanapplicationprocessing.service.exception.LoanApplicationNotFoundException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -61,7 +62,7 @@ public class LoanApplicationServiceTest {
     }
 
     @Test
-    public void openLoanApplicationTest () throws LoanApplicationException {
+    public void openLoanApplicationTest () throws LoanApplicationException, LoanApplicationNotFoundException {
         when(loanApplicationRepository.findById(any())).thenReturn(Optional.of(LoanApplicationTestFactory.getInstance().createLoanApplication()));
         when(loanApplicationRepository.save(any())).thenReturn(LoanApplicationTestFactory.getInstance().openLoanApplication());
         when(loanApplicationActionRepository.save(any())).thenReturn(LoanApplicationTestFactory.getInstance().createOpenAction());
@@ -73,7 +74,7 @@ public class LoanApplicationServiceTest {
     }
 
     @Test
-    public void closeLoanApplicationTest () throws LoanApplicationException {
+    public void closeLoanApplicationTest () throws LoanApplicationException, LoanApplicationNotFoundException {
         when(loanApplicationRepository.findById(any())).thenReturn(Optional.of(LoanApplicationTestFactory.getInstance().createLoanApplication()));
         when(loanApplicationRepository.save(any())).thenReturn(LoanApplicationTestFactory.getInstance().closeLoanApplication());
         when(loanApplicationActionRepository.save(any())).thenReturn(LoanApplicationTestFactory.getInstance().createCloseAction());

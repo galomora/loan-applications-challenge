@@ -40,8 +40,10 @@ public class LoanApplicationServiceImpl implements LoanApplicationService {
 
     @Override
     @Transactional
-    public LoanApplicationAction openLoanApplication(Long loanApplicationId, String officer) throws LoanApplicationException {
-        LoanApplication loanApplication = this.loanApplicationRepository.findById(loanApplicationId).orElseThrow();
+    public LoanApplicationAction openLoanApplication(Long loanApplicationId, String officer) throws LoanApplicationException, LoanApplicationNotFoundException {
+        LoanApplication loanApplication = this.loanApplicationRepository.findById(loanApplicationId).orElseThrow(
+                () -> new LoanApplicationNotFoundException ("Not found loan application with id = " + loanApplicationId)
+        );
         loanApplication.openLoanApplication(officer);
         LoanApplicationAction action = new LoanApplicationAction(ActionName.OPEN, officer, loanApplication);
         this.loanApplicationRepository.save(loanApplication);
@@ -50,8 +52,10 @@ public class LoanApplicationServiceImpl implements LoanApplicationService {
 
     @Override
     @Transactional
-    public LoanApplicationAction closeLoanApplication(Long loanApplicationId, String officer, LoanApplicationStatus loanApplicationStatus) throws LoanApplicationException {
-        LoanApplication loanApplication = this.loanApplicationRepository.findById(loanApplicationId).orElseThrow();
+    public LoanApplicationAction closeLoanApplication(Long loanApplicationId, String officer, LoanApplicationStatus loanApplicationStatus) throws LoanApplicationException, LoanApplicationNotFoundException {
+        LoanApplication loanApplication = this.loanApplicationRepository.findById(loanApplicationId).orElseThrow(
+                () -> new LoanApplicationNotFoundException ("Not found loan application with id = " + loanApplicationId)
+        );
         loanApplication.closeLoanApplication(loanApplicationStatus);
         LoanApplicationAction action = new LoanApplicationAction(ActionName.CLOSE, officer, loanApplication);
         this.loanApplicationRepository.save(loanApplication);
@@ -109,6 +113,16 @@ public class LoanApplicationServiceImpl implements LoanApplicationService {
         return optionalItem.filter(item -> loanApplicationId.longValue() == item.getLoanApplicationId().longValue())
                 .orElseThrow( () -> new LoanApplicationNotFoundException (
                         "Checklist item with id = " + itemId + " for Loan Application with id = " + loanApplicationId + " not found"));
+    }
+
+    @Override
+    public LoanApplicationAction createAction(Long loanApplicationId, String officer, ActionName actionName, LoanApplicationStatus loanApplicationStatus)
+            throws LoanApplicationException, LoanApplicationNotFoundException {
+        switch (actionName) {
+            case OPEN -> {return this.openLoanApplication(loanApplicationId, officer);}
+            case CLOSE -> {return this.closeLoanApplication(loanApplicationId, officer, loanApplicationStatus);}
+            default -> throw new LoanApplicationException ("Action not allowed: " + actionName);
+        }
     }
 
 }

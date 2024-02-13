@@ -1,9 +1,6 @@
 package ec.gm.loanapplicationprocessing.service;
 
-import ec.gm.loanapplicationprocessing.model.LoanApplication;
-import ec.gm.loanapplicationprocessing.model.LoanApplicationAction;
-import ec.gm.loanapplicationprocessing.model.LoanApplicationChecklistItem;
-import ec.gm.loanapplicationprocessing.model.LoanApplicationStatus;
+import ec.gm.loanapplicationprocessing.model.*;
 import ec.gm.loanapplicationprocessing.model.exception.LoanApplicationException;
 import ec.gm.loanapplicationprocessing.service.exception.LoanApplicationNotFoundException;
 
@@ -32,7 +29,7 @@ public interface LoanApplicationService {
      * @param loanApplicationId id of the {@link LoanApplication}
      * @param officer that opens the application
      */
-    LoanApplicationAction openLoanApplication (Long loanApplicationId, String officer) throws LoanApplicationException;
+    LoanApplicationAction openLoanApplication (Long loanApplicationId, String officer) throws LoanApplicationException, LoanApplicationNotFoundException;
 
     /**
      * Closes a {@link LoanApplication}
@@ -40,7 +37,7 @@ public interface LoanApplicationService {
      * @param officer that closes the loan application
      * @param loanApplicationStatus one of the values of {@link LoanApplicationStatus} to close the application
      */
-    LoanApplicationAction closeLoanApplication (Long loanApplicationId, String officer, LoanApplicationStatus loanApplicationStatus) throws LoanApplicationException;
+    LoanApplicationAction closeLoanApplication (Long loanApplicationId, String officer, LoanApplicationStatus loanApplicationStatus) throws LoanApplicationException, LoanApplicationNotFoundException;
 
     /**
      * Gets a list of {@link LoanApplication} searching by its status
@@ -100,4 +97,16 @@ public interface LoanApplicationService {
      * @throws LoanApplicationNotFoundException when not found
      */
     LoanApplicationChecklistItem getItem (Long itemId, Long loanApplicationId) throws LoanApplicationNotFoundException;
+
+    /**
+     * Create a {@link LoanApplicationAction} for a Loan Application
+     * @param loanApplicationId id of the loan application
+     * @param officer who creates
+     * @param actionName OPEN / CLOSE
+     * @param loanApplicationStatus required for CLOSE action
+     * @return {@link LoanApplicationAction} created
+     * TODO move actions to new service class
+     */
+    LoanApplicationAction createAction (Long loanApplicationId, String officer, ActionName actionName, LoanApplicationStatus loanApplicationStatus) throws LoanApplicationException, LoanApplicationNotFoundException;
+
 }

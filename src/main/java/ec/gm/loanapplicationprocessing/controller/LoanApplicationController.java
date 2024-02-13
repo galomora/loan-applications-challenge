@@ -1,11 +1,14 @@
 package ec.gm.loanapplicationprocessing.controller;
 
 import ec.gm.loanapplicationprocessing.controller.request.CreateLoanApplicationChecklistItemRequest;
+import ec.gm.loanapplicationprocessing.controller.request.LoanApplicationActionRequest;
 import ec.gm.loanapplicationprocessing.controller.request.LoanApplicationRequest;
 import ec.gm.loanapplicationprocessing.controller.request.UpdateLoanApplicationChecklistItemRequest;
+import ec.gm.loanapplicationprocessing.controller.response.LoanApplicationActionResponse;
 import ec.gm.loanapplicationprocessing.controller.response.LoanApplicationChecklistItemResponse;
 import ec.gm.loanapplicationprocessing.controller.response.LoanApplicationResponse;
 import ec.gm.loanapplicationprocessing.model.LoanApplication;
+import ec.gm.loanapplicationprocessing.model.LoanApplicationAction;
 import ec.gm.loanapplicationprocessing.model.LoanApplicationChecklistItem;
 import ec.gm.loanapplicationprocessing.model.exception.LoanApplicationException;
 import ec.gm.loanapplicationprocessing.service.LoanApplicationService;
@@ -123,5 +126,27 @@ public class LoanApplicationController {
                     HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage(), e);
         }
 
+    }
+
+    @RequestMapping (path="/{loanApplicationId}/actions",
+            method = RequestMethod.POST,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseStatus(HttpStatus.CREATED)
+    public LoanApplicationActionResponse createAction(
+            @PathVariable Long loanApplicationId,
+            @RequestBody @Validated LoanApplicationActionRequest request
+    ) {
+        LoanApplicationAction action = null;
+        try {
+            action = this.loanApplicationService.createAction (loanApplicationId, request.getOfficer(),
+                    request.getActionName(), request.getLoanApplicationStatus());
+        } catch (LoanApplicationException e) {
+            throw new ResponseStatusException(
+                    HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage(), e);
+        } catch (LoanApplicationNotFoundException e) {
+            throw new ResponseStatusException(
+                    HttpStatus.NOT_FOUND, e.getMessage(), e);
+        }
+        return new LoanApplicationActionResponse (action);
     }
 }
