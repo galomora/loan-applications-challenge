@@ -1,7 +1,8 @@
 package ec.gm.loanapplicationprocessing.controller.request;
 
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Min;
+
 
 public class UpdateLoanApplicationChecklistItemRequest {
     @NotNull

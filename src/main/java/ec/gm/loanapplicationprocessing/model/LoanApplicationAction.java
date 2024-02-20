@@ -1,6 +1,6 @@
 package ec.gm.loanapplicationprocessing.model;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 
 @Entity
 public class LoanApplicationAction {

@@ -1,6 +1,7 @@
 package ec.gm.loanapplicationprocessing.controller.request;
 
-import javax.validation.constraints.NotNull;
+
+import jakarta.validation.constraints.NotNull;
 
 public class LoanApplicationRequest {
     @NotNull

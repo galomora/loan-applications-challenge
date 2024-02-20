@@ -3,7 +3,7 @@ package ec.gm.loanapplicationprocessing.model;
 
 import ec.gm.loanapplicationprocessing.model.exception.LoanApplicationException;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 import java.util.Optional;
 import java.util.function.Predicate;
 

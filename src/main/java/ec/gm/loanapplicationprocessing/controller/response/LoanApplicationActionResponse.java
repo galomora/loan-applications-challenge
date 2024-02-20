@@ -4,7 +4,7 @@ import ec.gm.loanapplicationprocessing.model.ActionName;
 import ec.gm.loanapplicationprocessing.model.LoanApplicationAction;
 import ec.gm.loanapplicationprocessing.model.LoanApplicationStatus;
 
-import javax.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotNull;
 
 public class LoanApplicationActionResponse {
 

@@ -2,7 +2,7 @@ package ec.gm.loanapplicationprocessing.model;
 
 import ec.gm.loanapplicationprocessing.model.exception.LoanApplicationException;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
